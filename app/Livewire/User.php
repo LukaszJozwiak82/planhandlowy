@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use App\Http\Resources\UserCollection;
-use Livewire\Component;
 use App\Models\User as UserModel;
+use Livewire\Component;
 
 class User extends Component
 {
