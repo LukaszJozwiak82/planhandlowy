@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Sale\NewSale;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,5 +23,7 @@ Route::middleware([
     Route::get('/', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/new-sale', NewSale::class);
 
 });
