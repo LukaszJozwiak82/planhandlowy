@@ -42,6 +42,7 @@ class NewSale extends Component
         $this->deposits = Deposit::where('status', true)->get();
         $this->connections = Connection::all();
         $this->packages = Package::where('status', true)->get();
+        $this->adviser = Auth()->user()->id;
     }
 
     public function render()

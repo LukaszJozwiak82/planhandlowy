@@ -2,14 +2,6 @@
     <form wire:submit="save" class="w-full">
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <x-label for="date">Dordca</x-label>
-                <select wire:model.live="adviser">
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}"
-                            {{ auth()->user()->id == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }}</option>
-                    @endforeach
-                </select>
                 <x-mary-select label="Doradca"
                                icon-right="o-user"
                                :options="$users"
@@ -18,15 +10,12 @@
                 />
             </div>
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <x-label for="date">Dordca polecający</x-label>
-                <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-                        wire:model.live="recommended"
-                >
-                    <option selected value="">brak</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                    @endforeach
-                </select>
+                <x-mary-select label="Doradca polecający"
+                               icon-right="o-user"
+                               :options="$users"
+                               placeholder="Wybierz doradcę"
+                               wire:model.live="recommended"
+                />
                 @error('name')
                 <span class="error text-danger">{{ $message }}</span>
                 @enderror
