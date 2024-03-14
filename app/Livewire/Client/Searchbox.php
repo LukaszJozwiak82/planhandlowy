@@ -16,7 +16,6 @@ class Searchbox extends Component
     // Fetch records
     public function searchResult()
     {
-
         if (!empty($this->search)) {
 
             $this->records = Client::orderby('modulo', 'asc')
@@ -26,7 +25,7 @@ class Searchbox extends Component
                 ->get();
 
             $this->showdiv = true;
-            $this->emitUp('moduloToParent', $this->search);
+            $this->dispatch('moduloToParent', $this->search);
         } else {
             $this->showdiv = false;
         }
@@ -43,7 +42,7 @@ class Searchbox extends Component
         $this->search = $record->modulo;
         $this->empDetails = $record;
         $this->showdiv = false;
-        $this->emitUp('moduloToParent', $this->search);
+        $this->dispatch('moduloToParent', $this->search);
     }
     public function render()
     {

@@ -17,7 +17,7 @@
     <!-- Styles -->
     @livewireStyles
 </head>
-<body class="font-sans antialiased">
+<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
 {{-- The navbar with `sticky` and `full-width` --}}
 <x-mary-nav sticky full-width>
 

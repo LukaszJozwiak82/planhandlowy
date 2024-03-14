@@ -41,9 +41,8 @@
 
         <div class="search-box">
             <div class="row form-group mb-2">
-                <label class="col-sm-4 col-form-label" for="modulo">Modulo klienta</label>
                 <div class="col-sm-2">
-                    <input wire:model.live="search" wire:keyup="searchResult" class="form-control" name="modulo" type="text">
+                    <x-mary-input label="Modulo klienta" wire:model.live="search" wire:keyup="searchResult" class="form-control" name="modulo" type="text"/>
                     @if ($showdiv)
                         <ul>
                             @if (!empty($records))
