@@ -49,36 +49,29 @@
                     <div>
                         <x-mary-checkbox class="mb-1.5" label="{{ $deposit->name }}" wire:model.defer="deposit" value="{{ $deposit->id }}" left/>
                         @if ($deposit->is_value == 1)
-                            ,wartość <input wire:model.live="depositValue" id="depositValue{{$deposit->name}}" type="text" class="form">
+                            ,wartość <input wire:model.defer="depositValue" id="depositValue{{$deposit->name}}" type="text" class="form">
                         @endif
                     </div>
                 @endforeach
             </div>
-{{--            <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">--}}
-{{--                Pakiety--}}
-{{--                <div class="form-check">--}}
-{{--                    <label class="form-check-label" for="loan_granted">--}}
-{{--                        Sprzedano pakiet--}}
-{{--                    </label>--}}
-{{--                    <input class="form-check-input" type="checkbox" value="true" id="package_sold"--}}
-{{--                           wire:model.live="packageSold"--}}
-{{--                    >--}}
-{{--                </div>--}}
-{{--                @foreach($packages as $package)--}}
-{{--                    <div class="form-check">--}}
-{{--                        <label class="form-check-label" for="{{ $package->name }}">--}}
-{{--                            {{ $package->name }}--}}
-{{--                            <ul>--}}
-{{--                                @foreach($package->packageDeposits as $item)--}}
-{{--                                    <li class="m-1">{{$item->deposit->name}}</li>--}}
-{{--                                @endforeach--}}
-{{--                            </ul>--}}
-{{--                        </label>--}}
-{{--                        <input wire:model.defer="package" class="form-check-input" type="radio"--}}
-{{--                               value="{{ $package->id }}" id="packages" {{ $packageSold == true ? '' : 'disabled' }}>--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
-{{--            </div>--}}
+            <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                Pakiety
+                    <x-mary-checkbox label="Sprzedano pakiet" type="checkbox" value="true" id="package_sold"
+                           wire:model.defer="packageSold"
+                    />
+                @foreach($packages as $package)
+                    <div class="form-check">
+                        <label class="form-check-label" for="{{ $package->name }}">
+                            {{ $package->name }}
+                                @foreach($package->packageDeposits as $item)
+                                    <x-mary-list-item :item="$item->deposit"/>
+                                @endforeach
+                        </label>
+                        <input wire:model.defer="package" class="form-check-input" type="radio"
+                               value="{{ $package->id }}" id="packages" {{ $packageSold == true ? '' : 'disabled' }}>
+                    </div>
+                @endforeach
+            </div>
 {{--            <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">--}}
 {{--                Produkty kredytowe--}}
 {{--                <div class="form-check">--}}
