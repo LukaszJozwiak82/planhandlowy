@@ -17,7 +17,7 @@
     <!-- Styles -->
     @livewireStyles
 </head>
-<body class="font-sans antialiased">
+<body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
 {{-- The navbar with `sticky` and `full-width` --}}
 <x-mary-nav sticky full-width>
 
@@ -63,7 +63,7 @@
                 <x-mary-menu-item title="Wifi" icon="o-wifi" link="####" />
                 <x-mary-menu-item title="Archives" icon="o-archive-box" link="####" />
             </x-mary-menu-sub>
-            <x-mary-menu-item title="{{ __('sale.new_sale') }}" icon="s-plus" link="###" />
+            <x-mary-menu-item title="{{ __('sale.new_sale') }}" icon="s-plus" link="new-sale" />
         </x-mary-menu>
     </x-slot:sidebar>
 
