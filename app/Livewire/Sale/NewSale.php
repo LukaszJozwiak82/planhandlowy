@@ -15,6 +15,7 @@ use App\Models\Package;
 use App\Models\PackageSale;
 use App\Models\Sale;
 use App\Models\User;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -25,7 +26,7 @@ class NewSale extends Component
     public $users, $deposits, $loans, $insurances, $saleData = null,
         $recommended, $loan_id, $adviser, $modulo, $insurance_id, $contribution, $current_funding, $packages;
     public $connections;
-    public bool $loan_granted = false;
+    public $loan_granted = false;
     public bool $insuranceGranted = false;
     public bool $loanGranted = false;
     public bool $packageSold = false;
@@ -53,6 +54,7 @@ class NewSale extends Component
         $this->connections = Connection::all();
         $this->packages = Package::where('status', true)->get();
         $this->adviser = Auth()->user()->id;
+
     }
 
     protected $rules = [
@@ -75,7 +77,7 @@ class NewSale extends Component
         $this->modulo = $modulo;
     }
 
-    public function save() :Redirector
+    public function save(): Redirector
     {
 
         $validatedData = $this->validate();
@@ -157,10 +159,10 @@ class NewSale extends Component
 
         //packages sale
 
-        if ($this->packageSold){
+        if ($this->packageSold) {
             $packages = Package::where('status', true)->get();
-            foreach ($packages as $package){
-                if($package->id == $this->package){
+            foreach ($packages as $package) {
+                if ($package->id == $this->package) {
                     $this->packageTotalSalePoints = intval($package->points);
                 }
             }
@@ -203,7 +205,7 @@ class NewSale extends Component
                 $isSale = false;
                 if ($loan->id == $this->loan_id) {
                     $isSale = true;
-                    $this->loanTotalSalePoints = round((1 / $loan->percent) * $this->loan_value * (floatval(str_replace(',', '.',$this->rrso)) / 100));
+                    $this->loanTotalSalePoints = round((1 / $loan->percent) * $this->loan_value * (floatval(str_replace(',', '.', $this->rrso)) / 100));
                 }
             }
 
@@ -213,21 +215,20 @@ class NewSale extends Component
                 'loan_id' => $this->loan_id,
                 'value' => $this->loan_value,
                 'current_funding' => $this->current_funding,
-                'rrso' => floatval(str_replace(',', '.',$this->rrso)),
+                'rrso' => floatval(str_replace(',', '.', $this->rrso)),
                 'points' => $this->loanTotalSalePoints,
             ]);
             $this->totalPoints = $this->totalPoints + (int)$this->loanTotalSalePoints;
         }
 
-        if($this->recommended == null)
-        {
+        if ($this->recommended == null) {
             //add points to sale
             $sale->points = $this->totalPoints;
             $sale->save();
 
-            session()->flash('message', 'Gratulacje ' .Auth::user()->name.' ! Zdobyłaś(eś) '.$this->totalPoints. 'punktów');
+            session()->flash('message', 'Gratulacje ' . Auth::user()->name . ' ! Zdobyłaś(eś) ' . $this->totalPoints . 'punktów');
 
-            return redirect(route('employee.quarter', ['quarter' => $quarter, 'year' => $year]));
+            return redirect(route('employee:sale.index'));
         }
 
         $saleRecommended = Sale::create([
@@ -249,9 +250,9 @@ class NewSale extends Component
         $sale->recommended = true;
         $sale->save();
 
-        session()->flash('message', 'Gratulacje ' .Auth::user()->name.' ! Zdobyłaś(eś) '.round($this->totalPoints / 2). 'punktów');
+        session()->flash('message', 'Gratulacje ' . Auth::user()->name . ' ! Zdobyłaś(eś) ' . round($this->totalPoints / 2) . 'punktów');
 
-        return redirect(route('employee.quarter', ['quarter' => $quarter, 'year' => $year]));
+        return redirect(route('employee:sale.index'));
     }
 
     public function render()

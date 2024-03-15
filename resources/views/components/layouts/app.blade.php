@@ -28,7 +28,7 @@
         </label>
 
         {{-- Brand --}}
-        <div>App</div>
+        <div>Bank Piastowski - plan handlowy</div>
     </x-slot:brand>
 
     {{-- Right side actions --}}
