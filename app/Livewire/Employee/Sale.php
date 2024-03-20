@@ -32,7 +32,7 @@ class Sale extends Component
 
 
 
-    public function mount(SaleService $saleService){
+    public function mount(){
         $this->user = auth()->user();
         $this->dates = PlanData::getQuarterData(1, Carbon::now()->year);
         $this->selectedYear = Carbon::now()->year;
@@ -54,8 +54,8 @@ class Sale extends Component
     }
 
     public function delete(SaleService $saleService, $id){
-        $sale = Sale::find($id);
-        $saleService->delete($sale);
+        $saleService->delete($id);
+        $this->search($saleService);
     }
 
     public function render()

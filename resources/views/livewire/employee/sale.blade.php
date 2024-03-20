@@ -21,7 +21,7 @@
                 @endif
                 @endscope
                 @scope('actions', $sale)
-                    <x-mary-button icon="o-trash" wire:click="delete({{$sale->id}})" spinner class="btn-sm" />
+                    <x-mary-button icon="o-trash" wire:click="delete({{$sale->id}})" spinner class="btn-sm" wire:confirm="{{__('sale.confirm_msg')}}"/>
                 @endscope
             </x-mary-table>
         </x-mary-tab>
