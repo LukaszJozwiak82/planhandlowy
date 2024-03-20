@@ -13,6 +13,6 @@ return [
     |
     */
 
-    'new_sale' => 'New sale',
+    'sale' => 'Sale',
 
 ];

@@ -14,4 +14,17 @@ final class SaleService
         return $user->sales->load('client');
     }
 
+    public function search(User $user, $selectedYear, $selectedQuarter)
+    {
+        return $user->sales()
+            ->where('year', $selectedYear)
+            ->where('quarter', $selectedQuarter)
+            ->get();
+    }
+
+    public function delete(Sale $sale)
+    {
+        $sale->delete();
+    }
+
 }
