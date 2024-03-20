@@ -26,145 +26,106 @@
                 <livewire:client.searchbox />
             </div>
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <x-mary-input type="date" label="Data" class="form-control" wire:model.live="saleData"/>
+                <x-mary-input type="date" label="Data" class="form-control" wire:model.live="saleData" />
                 @error('saleData')
                 <span class="error text-danger">{{ $message }}</span>
                 @enderror
-                 Data: {{ \Carbon\Carbon::parse($saleData)->format('Y-m-d') }}
+                Data: {{ \Carbon\Carbon::parse($saleData)->format('Y-m-d') }}
 
             </div>
         </div>
         <div class="flex flex-wrap -mx-3 mb-6 gap-2">
             <p for="modulo">Zgoda na komunikację przez:</p>
             @foreach($connections as $connection)
-{{--                <div class="form-check form-check-inline">--}}
-                    <x-mary-checkbox label="{{ $connection->name }}" value="{{$connection->id}}" wire:model.defer="connection" id="{{$connection->id}}"/>
-{{--                </div>--}}
+                {{--                <div class="form-check form-check-inline">--}}
+                <x-mary-checkbox label="{{ $connection->name }}" value="{{$connection->id}}" wire:model.defer="connection" id="{{$connection->id}}" />
+                {{--                </div>--}}
             @endforeach
         </div>
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
-                Produkty depozytowe
+                <p class="italic font-bold underline text-xl">Produkty depozytowe</p>
                 @foreach ($deposits as $deposit)
                     <div>
-                        <x-mary-checkbox class="mb-1.5" label="{{ $deposit->name }}" wire:model.defer="deposit" value="{{ $deposit->id }}" left/>
+                        <x-mary-checkbox class="mb-1.5 mt-1" label="{{ $deposit->name }}" wire:model.defer="deposit" value="{{ $deposit->id }}" left />
                         @if ($deposit->is_value == 1)
-                            ,wartość <input wire:model.live="depositValue" id="depositValue{{$deposit->name}}" type="text" class="form">
+                            ,wartość <input wire:model.defer="depositValue" id="depositValue{{$deposit->name}}" type="text" class="form">
                         @endif
                     </div>
                 @endforeach
             </div>
-{{--            <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">--}}
-{{--                Pakiety--}}
-{{--                <div class="form-check">--}}
-{{--                    <label class="form-check-label" for="loan_granted">--}}
-{{--                        Sprzedano pakiet--}}
-{{--                    </label>--}}
-{{--                    <input class="form-check-input" type="checkbox" value="true" id="package_sold"--}}
-{{--                           wire:model.live="packageSold"--}}
-{{--                    >--}}
-{{--                </div>--}}
-{{--                @foreach($packages as $package)--}}
-{{--                    <div class="form-check">--}}
-{{--                        <label class="form-check-label" for="{{ $package->name }}">--}}
-{{--                            {{ $package->name }}--}}
-{{--                            <ul>--}}
-{{--                                @foreach($package->packageDeposits as $item)--}}
-{{--                                    <li class="m-1">{{$item->deposit->name}}</li>--}}
-{{--                                @endforeach--}}
-{{--                            </ul>--}}
-{{--                        </label>--}}
-{{--                        <input wire:model.defer="package" class="form-check-input" type="radio"--}}
-{{--                               value="{{ $package->id }}" id="packages" {{ $packageSold == true ? '' : 'disabled' }}>--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
-{{--            </div>--}}
-{{--            <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">--}}
-{{--                Produkty kredytowe--}}
-{{--                <div class="form-check">--}}
-{{--                    <label class="form-check-label" for="loan_granted">--}}
-{{--                        Udzielono kredytu--}}
-{{--                    </label>--}}
-{{--                    <input class="form-check-input" type="checkbox" value="true" id="loan_granted"--}}
-{{--                           wire:model.live="loanGranted"--}}
-{{--                    >--}}
-{{--                    <select wire:model.defer="loan_id" class="form-check-select"--}}
-{{--                        {{ $loanGranted == true ? '' : 'disabled' }}>--}}
-{{--                        <option selected></option>--}}
-{{--                        @foreach ($loans as $loan)--}}
-{{--                            <option value="{{ $loan->id }}">{{ $loan->name }}</option>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
-{{--                </div>--}}
-{{--                <div class="mb-2 row">--}}
-{{--                    <label class="col-sm-5 form-check-label" for="loan_value">--}}
-{{--                        Kwota finansowania--}}
-{{--                    </label>--}}
-{{--                    <div class="col-sm-4">--}}
-{{--                        <input wire:model.defer="loan_value" name="loan_value" type="text" class="form" id="loan_value"--}}
-{{--                            {{ $loanGranted == true ? '' : 'disabled' }}>--}}
-{{--                        @error('loan_value')--}}
-{{--                        <span class="error">{{ $message }}</span>--}}
-{{--                        @enderror--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="mb-2 row">--}}
-{{--                    <label class="col-sm-5 form-check-label" for="current_funding">--}}
-{{--                        Obecne finansowanie--}}
-{{--                    </label>--}}
-{{--                    <div class="col-sm-4">--}}
-{{--                        <input wire:model.defer="current_funding" type="text" class="form"--}}
-{{--                            {{ $loanGranted == true ? '' : 'disabled' }}>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="mb-2 row">--}}
-{{--                    <label class="col-sm-5 form-check-label" for="rrso">--}}
-{{--                        RRSO/oprocentowanie--}}
-{{--                    </label>--}}
-{{--                    <div class="col-sm-4">--}}
-{{--                        <input wire:model.defer="rrso" type="text" class="form"--}}
-{{--                            {{ $loanGranted == true ? '' : 'disabled' }}>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">--}}
-{{--            <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">--}}
-{{--                Ubezpieczenie--}}
-{{--                <div class="form-check">--}}
-{{--                    <label class="form-check-label" for="insuranceGranted">--}}
-{{--                        Udzielono ubezpieczenia--}}
-{{--                    </label>--}}
-{{--                    <input class="form-check-input" type="checkbox" value="true" id="insuranceGranted"--}}
-{{--                           wire:model.live="insuranceGranted"--}}
-{{--                    >--}}
-{{--                </div>--}}
-{{--                <div class="mb-2 row">--}}
-{{--                    <label class="col-sm-5 form-check-label" for="insurance">--}}
-{{--                        Rodzaj ubezpieczenia--}}
-{{--                    </label>--}}
-{{--                    <select wire:model.live="insurance_id" class="col form-check-select" id="insurance"--}}
-{{--                        {{ $insuranceGranted == true ? '' : 'disabled' }}>--}}
-{{--                        <option selected></option>--}}
-{{--                        @foreach ($insurances as $insurance)--}}
-{{--                            <option value="{{ $insurance->id }}">{{ $insurance->name }}</option>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
-{{--                </div>--}}
-{{--                <div class="mb-2 row">--}}
-{{--                    <label class="col-sm-5 form-check-label" for="rrso">--}}
-{{--                        Składka uroczniona--}}
-{{--                    </label>--}}
-{{--                    <div class="col-sm-4">--}}
-{{--                        <input wire:model.live="contribution" type="text" class="form"--}}
-{{--                            {{ $insuranceGranted == true ? '' : 'disabled' }}>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                <p class="italic font-bold underline text-xl">Pakiety</p>
+                <x-mary-checkbox label="Sprzedano pakiet" type="checkbox" value="true" id="package_sold"
+                                 wire:model.defer="packageSold"
+                />
+
+                @foreach($packages as $package)
+                    <div class="flex flex-wrap -mx-3 mb-6 mt-2">
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <input wire:model.defer="package" class="form-check-input" type="radio"
+                                   value="{{ $package->id }}" id="packages" {{ $packageSold == true ? '' : 'disabled' }}>
+                        </div>
+                        <div class="w-full md:w-3/4 px-3 mb-6 md:mb-0">
+                            <label class="form-check-label" for="{{ $package->name }}">
+                                {{ $package->name }}
+                                @foreach($package->packageDeposits as $item)
+                                    <x-mary-list-item :item="$item->deposit" />
+                                @endforeach
+                            </label>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                <p class="italic font-bold underline text-xl">Produkty kredytowe</p>
+                <x-mary-checkbox label="Udzielono kredytu" value="true" wire:model.live="loanGranted" />
+                @if($loanGranted)
+                    <x-mary-select label="Kredyt" :options="$loans" wire:model.defer="loan_id" />
+                    <x-mary-input label="Kwota finansowania" wire:model.defer="loan_value" />
+                    @error('loan_value')
+                    <span class="error">{{ $message }}</span>
+                    @enderror
+                    <x-mary-input label="Obecne finansowanie" wire:model.defer="current_funding" />
+                    <x-mary-input label="RRSO/oprocentowanie" wire:model.defer="rrso" />
+                @endif
+            </div>
+            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                <p class="italic font-bold underline text-xl">Ubezpieczenie</p>
+                <div class="form-check">
+                    <label class="form-check-label" for="insuranceGranted">
+                        Udzielono ubezpieczenia
+                    </label>
+                    <input class="form-check-input" type="checkbox" value="true" id="insuranceGranted"
+                           wire:model.live="insuranceGranted"
+                    >
+                </div>
+                <div class="mb-2 row">
+                    <label class="col-sm-5 form-check-label" for="insurance">
+                        Rodzaj ubezpieczenia
+                    </label>
+                    <select wire:model.live="insurance_id" class="col form-check-select" id="insurance"
+                        {{ $insuranceGranted == true ? '' : 'disabled' }}>
+                        <option selected></option>
+                        @foreach ($insurances as $insurance)
+                            <option value="{{ $insurance->id }}">{{ $insurance->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-2 row">
+                    <label class="col-sm-5 form-check-label" for="rrso">
+                        Składka uroczniona
+                    </label>
+                    <div class="col-sm-4">
+                        <input wire:model.live="contribution" type="text" class="form"
+                            {{ $insuranceGranted == true ? '' : 'disabled' }}>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger m-3" data-bs-dismiss="modal">Anuluj</button>
-            <button type="submit" class="btn btn-success">Zapisz</button>
-        </div>
+        <x-mary-button type="button" class="btn btn-danger" label="Anuluj" />
+        <x-mary-button type="submit" class="btn-success" label="Zapisz" />
     </x-mary-form>
 </div>
 

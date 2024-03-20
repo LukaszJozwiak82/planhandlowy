@@ -41,7 +41,7 @@ class RouteServiceProvider extends ServiceProvider
                 'auth:sanctum',
                 config('jetstream.auth_session'),
                 'verified',
-                'role:admin|support',
+                'role:admin',
             ])
                 ->prefix('admin')
                 ->as('admin:')
@@ -54,9 +54,9 @@ class RouteServiceProvider extends ServiceProvider
                 'verified',
                 'role:employee',
             ])
-                ->prefix('user')
-                ->as('user:')
-                ->group(base_path('routes/custom/user.php'));
+                ->prefix('employee')
+                ->as('employee:')
+                ->group(base_path('routes/custom/employee.php'));
         });
     }
 }
