@@ -15,5 +15,6 @@ return [
 
     'new_sale' => 'Nowa sprzedaż',
     'sale' => 'Sprzedaż',
+    'confirm_msg' => 'Czy na pewno chcesz usunąć tę sprzedaż?',
 
 ];

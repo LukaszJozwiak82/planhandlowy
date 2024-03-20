@@ -22,8 +22,9 @@ final class SaleService
             ->get();
     }
 
-    public function delete(Sale $sale)
+    public function delete($id)
     {
+        $sale = Sale::find($id);
         $sale->delete();
     }
 

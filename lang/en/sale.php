@@ -14,5 +14,6 @@ return [
     */
 
     'sale' => 'Sale',
+    'confirm_msg' => 'Are you sure you want to delete this sale?',
 
 ];
