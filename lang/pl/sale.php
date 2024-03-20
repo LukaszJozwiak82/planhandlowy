@@ -14,5 +14,6 @@ return [
     */
 
     'new_sale' => 'Nowa sprzedaż',
+    'sale' => 'Sprzedaż',
 
 ];

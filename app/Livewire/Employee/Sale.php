@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Employee;
 
+use App\Helpers\PlanData;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
 use App\Services\Employee\SaleService;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class Sale extends Component
@@ -19,11 +21,41 @@ class Sale extends Component
         ['key' => 'points', 'label' => 'Punkty'],
 
     ];
-    public $sales;
+    public $sales = [];
+    public $selectedTab;
+    public $selectedYear;
+    public $selectedQuarter;
+    public $dates;
+    public array $years;
+    public array $quarters;
+    public $sale;
+
+
 
     public function mount(SaleService $saleService){
         $this->user = auth()->user();
-        $this->sales = $saleService->index($this->user);
+        $this->dates = PlanData::getQuarterData(1, Carbon::now()->year);
+        $this->selectedYear = Carbon::now()->year;
+        $this->selectedQuarter = Carbon::now()->quarter;
+        $this->years  = [
+            ['id' => Carbon::now()->year,'name' => Carbon::now()->year],
+            ['id' => Carbon::now()->subYear()->year,'name' => Carbon::now()->subYear()->year],
+        ];
+        $this->quarters = [
+            ['id' => 1,'name' => 'I'],
+            ['id' => 2,'name' => 'II'],
+            ['id' => 3,'name' => 'III'],
+            ['id' => 4,'name' => 'IV'],
+        ];
+    }
+
+    public function search(SaleService $saleService){
+        $this->sales = $saleService->search($this->user, $this->selectedYear, $this->selectedQuarter);
+    }
+
+    public function delete(SaleService $saleService, $id){
+        $sale = Sale::find($id);
+        $saleService->delete($sale);
     }
 
     public function render()

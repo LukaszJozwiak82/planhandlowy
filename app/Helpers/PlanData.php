@@ -2,9 +2,9 @@
 
 namespace App\Helpers;
 
-class PlanData
+ class PlanData
 {
-    public static function getQuarterData($quarter, $year)
+    public static function getQuarterData($quarter, $year): array
     {
         $quarterData = [];
         if ($quarter == 1) {
