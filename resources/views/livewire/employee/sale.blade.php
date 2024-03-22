@@ -1,5 +1,13 @@
 <div>
     <div class="w-full flex flex-row -mx-3 mb-6">
+    <div class="grid gap-5">
+        <x-mary-button label="Randomize" wire:click="randomize" class="btn-primary" spinner />
+        <x-mary-button label="Switch" wire:click="switch" spinner />
+    </div>
+
+    <x-mary-chart wire:model="myChart" />
+    </div>
+    <div class="w-full flex flex-row -mx-3 mb-6">
         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
             <x-mary-select label="Wybierz rok" icon="o-user" :options="$years" wire:model="selectedYear" class="mt-2 mb-4" />
         </div>
