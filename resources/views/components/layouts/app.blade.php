@@ -16,6 +16,10 @@
 
     <!-- Styles -->
     @livewireStyles
+
+    {{-- Chart.js  --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
 </head>
 <body class="min-h-screen font-sans antialiased bg-base-200/50 dark:bg-base-200">
 {{-- The navbar with `sticky` and `full-width` --}}
