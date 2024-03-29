@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -25,6 +25,12 @@ class Sale extends Model
         'sale_id',
         'points',
         'departament_id',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime:d/m/Y H:i:s',
+        'updated_at' => 'datetime:d/m/Y H:i:s',
+        'actual_date' => 'datetime:Y-m-d',
     ];
 
     public function user(): BelongsTo

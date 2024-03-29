@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Livewire\Sale;
 
@@ -31,6 +31,7 @@ class NewSale extends Component
     public bool $loanGranted = false;
     public bool $packageSold = false;
     public $depositValue;
+
     public array $connection = [];
     public array $deposit = [];
     public $package;

@@ -54,6 +54,10 @@ class Sale extends Component
         $this->sales = $saleService->search($this->user, $this->selectedYear, $this->selectedQuarter);
     }
 
+    public function show(SaleService $saleService, $id){
+        dd($id);
+    }
+
     public function delete(SaleService $saleService, $id){
         $saleService->delete($id);
         $this->search($saleService);
