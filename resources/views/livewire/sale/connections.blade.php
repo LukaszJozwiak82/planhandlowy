@@ -4,9 +4,10 @@
         @foreach ($connections as $connection)
             <x-mary-checkbox label="{{ $connection->name }}"
                              value="{{ $connection->id }}"
-                             wire:model.defer="connection"
+                             wire:model.prevent="data"
                              id="{{ $connection->id }}"
             />
         @endforeach
     </div>
+    aaa: {{ var_export($data) }}
 </div>

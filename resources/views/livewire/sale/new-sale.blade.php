@@ -1,4 +1,9 @@
 <div>
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <x-mary-form wire:submit="save" class="p-6 lg:p-8 bg-white border-b border-gray-200">
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -38,7 +43,17 @@
 
             </div>
         </div>
-        <livewire:sale.connections :$connections/>
+{{--        <livewire:sale.connections :$connections/>--}}
+        <div class="flex flex-wrap -mx-3 mb-6 gap-2">
+            <p>Zgoda na komunikację przez:</p>
+            @foreach ($connections as $connection)
+                <x-mary-checkbox label="{{ $connection->name }}"
+                                 value="{{ $connection->id }}"
+                                 wire:model.prevent="connection"
+                                 id="{{ $connection->id }}"
+                />
+            @endforeach
+        </div>
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <p class="italic font-bold underline text-xl mb-4">Produkty depozytowe</p>

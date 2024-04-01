@@ -7,6 +7,11 @@
 
         <x-mary-chart wire:model="myChart" />
     </div>
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="w-full flex flex-row -mx-3 mb-6">
         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
             <x-mary-select label="Wybierz rok" icon="o-user" :options="$years" wire:model="selectedYear" class="mt-2 mb-4" />
@@ -23,7 +28,7 @@
             <x-mary-table :headers="$headers" :rows="$sales" striped @row-click="alert($event.detail.name)">
                 @scope('cell_recommended', $sale)
                 @if($sale->recommended)
-                    <x-icon name="c-hand-thumb-up" />
+                    <x-mary-icon name="c-hand-thumb-up" />
                 @else
                     <x-mary-icon name="c-x-mark" />
                 @endif
