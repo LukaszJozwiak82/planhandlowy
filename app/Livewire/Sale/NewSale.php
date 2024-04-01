@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Livewire\Sale;
 
@@ -17,20 +17,22 @@ use App\Models\Sale;
 use App\Models\User;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 
 #[Layout('components.layouts.app')]
 class NewSale extends Component
 {
-    public $users, $deposits, $loans, $insurances, $saleData = null,
+    public $users, $deposits, $loans, $insurances, $saleData = null,$connections,
         $recommended, $loan_id, $adviser, $modulo, $insurance_id, $contribution, $current_funding, $packages;
-    public $connections;
+
     public $loan_granted = false;
     public bool $insuranceGranted = false;
     public bool $loanGranted = false;
     public bool $packageSold = false;
     public $depositValue;
+
     public array $connection = [];
     public array $deposit = [];
     public $package;
@@ -75,6 +77,12 @@ class NewSale extends Component
     public function getModulo($modulo)
     {
         $this->modulo = $modulo;
+    }
+
+    #[On('post-created')]
+    public function updatePostList($data)
+    {
+        $this->connection = $data;
     }
 
     public function save(): Redirector
@@ -226,7 +234,7 @@ class NewSale extends Component
             $sale->points = $this->totalPoints;
             $sale->save();
 
-            session()->flash('message', 'Gratulacje ' . Auth::user()->name . ' ! Zdobyłaś(eś) ' . $this->totalPoints . 'punktów');
+            session()->flash('status', 'Gratulacje ' . Auth::user()->name . ' ! Zdobyłaś(eś) ' . $this->totalPoints . 'punktów');
 
             return redirect(route('employee:sale.index'));
         }
@@ -250,7 +258,7 @@ class NewSale extends Component
         $sale->recommended = true;
         $sale->save();
 
-        session()->flash('message', 'Gratulacje ' . Auth::user()->name . ' ! Zdobyłaś(eś) ' . round($this->totalPoints / 2) . 'punktów');
+        session()->flash('status', 'Gratulacje ' . Auth::user()->name . ' ! Zdobyłaś(eś) ' . round($this->totalPoints / 2) . 'punktów');
 
         return redirect(route('employee:sale.index'));
     }

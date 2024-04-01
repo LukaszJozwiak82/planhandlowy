@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Livewire\Sale;
+
+use Livewire\Attributes\On;
+use Livewire\Component;
+
+class Connections extends Component
+{
+    public $connections;
+    public $data = [];
+
+    #[On('to-child')]
+    public function toChild()
+    {
+        $this->changeConnection();
+    }
+    public function changeConnection()
+    {
+        $this->dispatch('post-created', $this->data);
+    }
+    public function render()
+    {
+        return view('livewire.sale.connections');
+    }
+}
