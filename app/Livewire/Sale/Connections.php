@@ -10,11 +10,12 @@ class Connections extends Component
     public $connections;
     public $data = [];
 
+
+//    public function toChild()
+//    {
+//        $this->changeConnection();
+//    }
     #[On('to-child')]
-    public function toChild()
-    {
-        $this->changeConnection();
-    }
     public function changeConnection()
     {
         $this->dispatch('post-created', $this->data);
