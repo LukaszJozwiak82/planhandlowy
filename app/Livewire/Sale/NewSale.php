@@ -15,6 +15,8 @@ use App\Models\Package;
 use App\Models\PackageSale;
 use App\Models\Sale;
 use App\Models\User;
+use App\Services\Sale\SaleService;
+use Carbon\Carbon;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -24,7 +26,7 @@ use Livewire\Component;
 #[Layout('components.layouts.app')]
 class NewSale extends Component
 {
-    public $users, $deposits, $loans, $insurances, $saleData = null,$connections,
+    public $users, $deposits, $loans, $insurances, $saleData = null,$connections, $package, $rrso,
         $recommended, $loan_id, $adviser, $modulo, $insurance_id, $contribution, $current_funding, $packages;
 
     public $loan_granted = false;
@@ -35,17 +37,23 @@ class NewSale extends Component
 
     public array $connection = [];
     public array $deposit = [];
-    public $package;
     public int $totalPoints = 0;
     public int $insuranceTotalSalePoints = 0;
     public float $loanTotalSalePoints = 0;
     public int $packageTotalSalePoints = 0;
-    public $rrso;
     public int $loan_value;
+
+    private SaleService $saleService;
+    private array $saleValue = [];
 
     protected $listeners = [
         'moduloToParent' => 'getModulo'
     ];
+
+    public function boot(SaleService $saleService)
+    {
+        $this->saleService = $saleService;
+    }
 
     public function mount()
     {
@@ -87,12 +95,11 @@ class NewSale extends Component
 
     public function save(): Redirector
     {
-
         $validatedData = $this->validate();
-        $convert_date = strtotime($this->saleData);
-        $month = date('m', $convert_date);
-        $year = date('Y', $convert_date);
-        $day = date('d', $convert_date);
+        $date = Carbon::createFromDate($this->saleData);
+        $month = $date->month;
+        $day = $date->day;
+        $year = $date->year;
         $user_id = $this->adviser;
         $quarter = ceil($month / 3);
 
@@ -107,18 +114,13 @@ class NewSale extends Component
         }
 
         //new sale
-
-        $sale = Sale::create([
+        $this->saleValue = [
             'user_id' => $user_id,
             'client_id' => $client->id,
-            'actual_date' => $this->saleData,
-            'day' => $day,
-            'month' => $month,
-            'year' => $year,
-            'quarter' => $quarter,
-            'departament_id' => Auth::user()->departament_id,
-        ]);
+            'actual_date' => $date,
+        ];
 
+        $sale = $this->saleService->createSale($this->saleValue);
 
         //communication
 

@@ -43,17 +43,7 @@
 
             </div>
         </div>
-{{--        <livewire:sale.connections :$connections/>--}}
-        <div class="flex flex-wrap -mx-3 mb-6 gap-2">
-            <p>Zgoda na komunikację przez:</p>
-            @foreach ($connections as $connection)
-                <x-mary-checkbox label="{{ $connection->name }}"
-                                 value="{{ $connection->id }}"
-                                 wire:model.prevent="connection"
-                                 id="{{ $connection->id }}"
-                />
-            @endforeach
-        </div>
+        <livewire:sale.connections :$connections />
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                 <p class="italic font-bold underline text-xl mb-4">Produkty depozytowe</p>
@@ -93,7 +83,7 @@
                                 <label class="form-check-label" for="{{ $package->name }}">
                                     {{ $package->name }}
                                     @foreach ($package->packageDeposits as $item)
-                                        <x-mary-list-item :item="$item->deposit" class="text-sm"/>
+                                        <x-mary-list-item :item="$item->deposit" class="text-sm" />
                                     @endforeach
                                 </label>
                             </div>
