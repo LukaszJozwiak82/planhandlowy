@@ -2,7 +2,6 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
 
-import preline from "preline/plugin";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -12,7 +11,6 @@ export default {
 		 './storage/framework/views/*.php',
 		 './resources/views/**/*.blade.php',
 		 './resources/views/**/*.blade.php',
-		 './node_modules/preline/dist/*.js',
 		 "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
 	],
 
@@ -27,7 +25,6 @@ export default {
     plugins: [
 		forms,
 		typography,
-		preline,
 		require("daisyui")
 	],
 };

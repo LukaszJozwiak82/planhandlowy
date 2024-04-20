@@ -16,7 +16,6 @@ final class SaleService
 
     public function createSale(array $data): Sale
     {
-       return $this->saleRepository->createSale($data);
+        return $this->saleRepository->createSale($data);
     }
-
 }
