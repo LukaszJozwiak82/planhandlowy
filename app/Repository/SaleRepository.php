@@ -26,6 +26,7 @@ final class SaleRepository
             'quarter' => ceil($month / 3),
             'departament_id' => Auth::user()->departament_id,
         ]);
+
         return $sale;
     }
 }

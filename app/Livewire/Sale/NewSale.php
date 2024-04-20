@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Livewire\Sale;
 
@@ -22,32 +24,71 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-
 #[Layout('components.layouts.app')]
 class NewSale extends Component
 {
-    public $users, $deposits, $loans, $insurances, $saleData = null,$connections, $package, $rrso,
-        $recommended, $loan_id, $adviser, $modulo, $insurance_id, $contribution, $current_funding, $packages;
+    public $users;
+
+    public $deposits;
+
+    public $loans;
+
+    public $insurances;
+
+    public $saleData = null;
+
+    public $connections;
+
+    public $package;
+
+    public $rrso;
+
+    public $recommended;
+
+    public $loan_id;
+
+    public $adviser;
+
+    public $modulo;
+
+    public $insurance_id;
+
+    public $contribution;
+
+    public $current_funding;
+
+    public $packages;
 
     public $loan_granted = false;
+
     public bool $insuranceGranted = false;
+
     public bool $loanGranted = false;
+
     public bool $packageSold = false;
+
     public $depositValue;
 
     public array $connection = [];
+
     public array $deposit = [];
+
     public int $totalPoints = 0;
+
     public int $insuranceTotalSalePoints = 0;
+
     public float $loanTotalSalePoints = 0;
+
     public int $packageTotalSalePoints = 0;
+
     public int $loan_value;
 
     private SaleService $saleService;
+
     private array $saleValue = [];
 
     protected $listeners = [
-        'moduloToParent' => 'getModulo'
+        'moduloToParent' => 'getModulo',
     ];
 
     public function boot(SaleService $saleService)
@@ -134,10 +175,10 @@ class NewSale extends Component
                     ConnectionSale::create([
                         'sale_id' => $sale->id,
                         'connection_id' => $item->id,
-                        'points' => $item->points
+                        'points' => $item->points,
                     ]);
 
-                    $this->totalPoints = $this->totalPoints + (int)$item->points;
+                    $this->totalPoints = $this->totalPoints + (int) $item->points;
                 }
             }
         }
@@ -159,9 +200,9 @@ class NewSale extends Component
                         'is_sale' => true,
                     ]);
                     if ($item->is_value) {
-                        $this->totalPoints = $this->totalPoints + (int)(0.05 / 100 * (int)$this->depositValue);
+                        $this->totalPoints = $this->totalPoints + (int) (0.05 / 100 * (int) $this->depositValue);
                     } else {
-                        $this->totalPoints = $this->totalPoints + (int)$item->points;
+                        $this->totalPoints = $this->totalPoints + (int) $item->points;
                     }
                 }
             }
@@ -192,7 +233,7 @@ class NewSale extends Component
                 $isSale = false;
                 if ($insurance->id == $this->insurance_id) {
                     $isSale = true;
-                    $this->insuranceTotalSalePoints = (int)($insurance->percent / 100) * $this->contribution;
+                    $this->insuranceTotalSalePoints = (int) ($insurance->percent / 100) * $this->contribution;
                 }
             }
 
@@ -203,7 +244,7 @@ class NewSale extends Component
                 'contribution' => $this->contribution,
                 'points' => $this->insuranceTotalSalePoints,
             ]);
-            $this->totalPoints = $this->totalPoints + (int)$this->insuranceTotalSalePoints;
+            $this->totalPoints = $this->totalPoints + (int) $this->insuranceTotalSalePoints;
         }
 
         //loan sale
@@ -228,7 +269,7 @@ class NewSale extends Component
                 'rrso' => floatval(str_replace(',', '.', $this->rrso)),
                 'points' => $this->loanTotalSalePoints,
             ]);
-            $this->totalPoints = $this->totalPoints + (int)$this->loanTotalSalePoints;
+            $this->totalPoints = $this->totalPoints + (int) $this->loanTotalSalePoints;
         }
 
         if ($this->recommended == null) {

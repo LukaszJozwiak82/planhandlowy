@@ -52,7 +52,12 @@
         @if($user = auth()->user())
             <x-mary-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="pt-2">
                 <x-slot:actions>
-                    <x-mary-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff" no-wire-navigate link="/logout" />
+                    <form method="POST" action="{{ route('logout') }}" x-data>
+                        @csrf
+                        <x-mary-button icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff" no-wire-navigate link="{{ route('logout') }}"
+                                       @click.prevent="$root.submit();"
+                        />
+                    </form>
                 </x-slot:actions>
             </x-mary-list-item>
 
@@ -61,12 +66,19 @@
 
         {{-- Activates the menu item when a route matches the `link` property --}}
         <x-mary-menu activate-by-route>
+            <x-mary-menu-item title="{{__('main.main')}}" icon="o-home" link="{{route('employee:index')}}" />
             <x-mary-menu-item title="{{__('sale.sale')}}" icon="o-home" link="{{route('employee:sale.index')}}" />
             <x-mary-menu-item title="Messages" icon="o-envelope" link="###" />
             <x-mary-menu-sub title="Settings" icon="o-cog-6-tooth">
                 <x-mary-menu-item title="Wifi" icon="o-wifi" link="####" />
                 <x-mary-menu-item title="Archives" icon="o-archive-box" link="####" />
             </x-mary-menu-sub>
+            @role('admin')
+            <x-mary-menu-sub title="Admin" icon="o-cog-6-tooth">
+                <x-mary-menu-item title="Users" icon="o-users" link="{{ route('admin:users.index') }}" />
+                <x-mary-menu-item title="Archives" icon="o-archive-box" link="####" />
+            </x-mary-menu-sub>
+            @endrole
             <x-mary-menu-item title="{{ __('sale.new_sale') }}" icon="s-plus" link="/new-sale" />
         </x-mary-menu>
     </x-slot:sidebar>

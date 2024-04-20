@@ -1,12 +1,4 @@
 <div>
-    <div class="w-full flex flex-row -mx-3 mb-6">
-        <div class="grid gap-5">
-            <x-mary-button label="Randomize" wire:click="randomize" class="btn-primary" spinner />
-            <x-mary-button label="Switch" wire:click="switch" spinner />
-        </div>
-
-        <x-mary-chart wire:model="myChart" />
-    </div>
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
@@ -39,5 +31,6 @@
                 @endscope
             </x-mary-table>
         </x-mary-tab>
+        {{ $sales->links() }}
     </x-mary-tabs>
 </div>

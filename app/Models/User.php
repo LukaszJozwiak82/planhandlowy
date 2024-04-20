@@ -16,7 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements CanUseTickets
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasTickets;
+    use HasApiTokens, HasFactory, HasRoles, HasTickets, Notifiable;
 
     /**
      * The attributes that are mass assignable.

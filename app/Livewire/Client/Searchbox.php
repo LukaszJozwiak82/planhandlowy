@@ -7,10 +7,12 @@ use Livewire\Component;
 
 class Searchbox extends Component
 {
-
     public $showdiv = false;
-    public $search = "";
+
+    public $search = '';
+
     public $records;
+
     public $empDetails;
 
     // Fetch records
@@ -44,6 +46,7 @@ class Searchbox extends Component
         $this->showdiv = false;
         $this->dispatch('moduloToParent', $this->search);
     }
+
     public function render()
     {
         return view('livewire.client.searchbox');
