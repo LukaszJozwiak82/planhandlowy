@@ -12,6 +12,7 @@
                                :options="$users"
                                placeholder="Wybierz doradcę"
                                wire:model.live="adviser"
+                               class="select-info"
                 />
             </div>
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -20,6 +21,7 @@
                                :options="$users"
                                placeholder="Wybierz doradcę"
                                wire:model.defer="recommended"
+                               class="select-info"
                 />
                 @error('name')
                 <span class="error text-danger">{{ $message }}</span>
@@ -33,7 +35,7 @@
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <x-mary-input type="date"
                               label="Data"
-                              class="form-control"
+                              class="input-info"
                               wire:model.live="saleData"
                 />
                 @error('saleData')
@@ -49,16 +51,18 @@
                 <p class="italic font-bold underline text-xl mb-4">Produkty depozytowe</p>
                 @foreach ($deposits as $deposit)
                     <div>
-                        <x-mary-checkbox class="mb-1.5 mt-1"
+                        <x-mary-checkbox class="mb-1.5 mt-1  input-info"
                                          label="{{ $deposit->name }}"
                                          wire:model.defer="deposit"
                                          value="{{ $deposit->id }}"
                                          left
                         />
                         @if ($deposit->is_value == 1)
-                            ,wartość <input wire:model.defer="depositValue" id="depositValue{{ $deposit->name }}"
-                                            type="text" class="form"
-                            >
+                            ,wartość <input wire:model.defer="depositValue"
+                                            id="depositValue{{ $deposit->name }}"
+                                            type="text"
+                                            class="form"
+                    >
                         @endif
                     </div>
                 @endforeach
@@ -70,6 +74,7 @@
                                  value="true"
                                  id="package_sold"
                                  wire:model.live="packageSold"
+                                 class="input-info"
                 />
                 @if($packageSold)
                     @foreach ($packages as $package)
@@ -83,7 +88,9 @@
                                 <label class="form-check-label" for="{{ $package->name }}">
                                     {{ $package->name }}
                                     @foreach ($package->packageDeposits as $item)
-                                        <x-mary-list-item :item="$item->deposit" class="text-sm" />
+                                    <x-mary-list-item :item="$item->deposit"
+                                                      class="text-sm"
+                                    />
                                     @endforeach
                                 </label>
                             </div>
@@ -93,30 +100,56 @@
             </div>
             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <p class="italic font-bold underline text-xl mb-4">Produkty kredytowe</p>
-                <x-mary-checkbox class="mb-4" label="Udzielono kredytu" value="true" wire:model.live="loanGranted" />
+                <x-mary-checkbox class="mb-4 input-info"
+                                 label="Udzielono kredytu"
+                                 value="true"
+                                 wire:model.live="loanGranted"
+                />
                 @if ($loanGranted)
-                    <x-mary-select label="Kredyt" :options="$loans" wire:model.defer="loan_id" />
-                    <x-mary-input label="Kwota finansowania" wire:model.defer="loan_value" />
+                <x-mary-select label="Kredyt"
+                               :options="$loans"
+                               wire:model.defer="loan_id"
+                />
+                <x-mary-input label="Kwota finansowania"
+                              wire:model.defer="loan_value"
+                />
                     @error('loan_value')
                     <span class="error">{{ $message }}</span>
                     @enderror
-                    <x-mary-input label="Obecne finansowanie" wire:model.defer="current_funding" />
-                    <x-mary-input label="RRSO/oprocentowanie" wire:model.defer="rrso" />
+                <x-mary-input label="Obecne finansowanie"
+                              wire:model.defer="current_funding"
+                />
+                <x-mary-input label="RRSO/oprocentowanie"
+                              wire:model.defer="rrso"
+                />
                 @endif
             </div>
             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                 <p class="italic font-bold underline text-xl mb-4">Ubezpieczenie</p>
-                <x-mary-checkbox class="mb-4" label="Ubezpieczenie" value="true"
+                <x-mary-checkbox class="mb-4 input-info"
+                                 label="Ubezpieczenie"
+                                 value="true"
                                  wire:model.live="insuranceGranted"
                 />
                 @if ($insuranceGranted)
-                    <x-mary-select label="Rodzaj ubezpieczenia" :options="$insurances" wire:model.defer="insurance_id" />
-                    <x-mary-input label="Składka uroczniona" wire:model.defer="contribution" />
+                <x-mary-select label="Rodzaj ubezpieczenia"
+                               :options="$insurances"
+                               wire:model.defer="insurance_id"
+                />
+                <x-mary-input label="Składka uroczniona"
+                              wire:model.defer="contribution"
+                />
                 @endif
             </div>
 
         </div>
-        <x-mary-button type="button" class="btn btn-danger" label="Anuluj" />
-        <x-mary-button type="submit" class="btn-success" label="Zapisz" />
+        <x-mary-button type="button"
+                       class="btn btn-danger"
+                       label="Anuluj"
+        />
+        <x-mary-button type="submit"
+                       class="btn-success"
+                       label="Zapisz"
+        />
     </x-mary-form>
 </div>
