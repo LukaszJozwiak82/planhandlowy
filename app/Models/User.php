@@ -113,7 +113,7 @@ class User extends Authenticatable implements CanUseTickets
 
     public function getRealization($year, $quarter)
     {
-        if ($this->getScore($year, $quarter) > 0) {
+        if ($this->getScore($year, $quarter) > 0 && $this->getPoints($year, $quarter) > 0) {
             return number_format(intval($this->getScore($year, $quarter)) / intval($this->getPoints($year, $quarter)) * 100, 2);
         }
 

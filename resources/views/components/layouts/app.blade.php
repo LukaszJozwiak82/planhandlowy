@@ -37,8 +37,8 @@
 
     {{-- Right side actions --}}
     <x-slot:actions>
-        <x-mary-button label="Messages" icon="o-envelope" link="###" class="btn-ghost btn-sm" responsive />
-        <x-mary-button label="Notifications" icon="o-bell" link="###" class="btn-ghost btn-sm" responsive />
+{{--        <x-mary-button label="Messages" icon="o-envelope" link="###" class="btn-ghost btn-sm" responsive />--}}
+{{--        <x-mary-button label="Notifications" icon="o-bell" link="###" class="btn-ghost btn-sm" responsive />--}}
     </x-slot:actions>
 </x-mary-nav>
 {{-- The main content with `full-width` --}}
@@ -66,20 +66,39 @@
 
         {{-- Activates the menu item when a route matches the `link` property --}}
         <x-mary-menu activate-by-route>
-            <x-mary-menu-item title="{{__('main.main')}}" icon="o-home" link="{{route('employee:index')}}" />
-            <x-mary-menu-item title="{{__('sale.sale')}}" icon="o-home" link="{{route('employee:sale.index')}}" />
-            <x-mary-menu-item title="Messages" icon="o-envelope" link="###" />
-            <x-mary-menu-sub title="Settings" icon="o-cog-6-tooth">
-                <x-mary-menu-item title="Wifi" icon="o-wifi" link="####" />
-                <x-mary-menu-item title="Archives" icon="o-archive-box" link="####" />
-            </x-mary-menu-sub>
-            @role('admin')
+            @hasanyrole(['manager', 'super-manager'])
+                <x-mary-menu-item title="{{__('main.main')}}" icon="o-home" link="{{route('manager:index')}}" />
+            @endrole
+            @hasanyrole('employee')
+                <x-mary-menu-item title="{{__('main.main')}}" icon="o-home" link="{{route('employee:index')}}" />
+            @endrole
+            <x-mary-menu-item title="{{__('main.calculator')}}" icon="o-calculator" link="{{route('calculator')}}" />
+            <x-mary-menu-item title="{{__('sale.sale')}}" icon="o-presentation-chart-line" link="{{ route('sale.index')}}" />
+            <x-mary-menu-item title="{{__('main.calendar')}}" icon="o-calendar" link="{{ route('calendar')}}" />
+            <x-mary-menu-item title="{{__('main.campaigns')}}" icon="o-list-bullet" link="{{ route('campaigns')}}" />
+{{--            <x-mary-menu-item title="Messages" icon="o-envelope" link="###" />--}}
+{{--            <x-mary-menu-sub title="Settings" icon="o-cog-6-tooth">--}}
+{{--                <x-mary-menu-item title="Wifi" icon="o-wifi" link="####" />--}}
+{{--                <x-mary-menu-item title="Archives" icon="o-archive-box" link="####" />--}}
+{{--            </x-mary-menu-sub>--}}
+            @hasanyrole('admin')
             <x-mary-menu-sub title="Admin" icon="o-cog-6-tooth">
-                <x-mary-menu-item title="Users" icon="o-users" link="{{ route('admin:users.index') }}" />
+                <x-mary-menu-item title="{{__('main.users')}}" icon="o-users" link="{{ route('admin:users.index') }}" />
                 <x-mary-menu-item title="Archives" icon="o-archive-box" link="####" />
             </x-mary-menu-sub>
             @endrole
+            @hasanyrole(['manager', 'admin', 'super-manager'])
+            <x-mary-menu-sub title="Manager" icon="o-cog-6-tooth">
+                <x-mary-menu-item title="{{__('main.users')}}" icon="o-users" link="{{ route('manager:users.index') }}" />
+                <x-mary-menu-item title="Plan-doradcy" icon="o-archive-box" link="{{ route('manager:plan.index') }}" />
+                @hasanyrole(['admin', 'super-manager'])
+                <x-mary-menu-item title="Plan-oddziały" icon="o-archive-box" link="{{ route('supermanager:department.plan') }}" />
+                @endrole
+            </x-mary-menu-sub>
+            @endrole
+            @hasrole('employee')
             <x-mary-menu-item title="{{ __('sale.new_sale') }}" icon="s-plus" link="/new-sale" />
+            @endrole
         </x-mary-menu>
     </x-slot:sidebar>
 

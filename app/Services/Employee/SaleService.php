@@ -19,7 +19,7 @@ final class SaleService
         return $user->sales()
             ->where('year', $selectedYear)
             ->where('quarter', $selectedQuarter)
-            ->paginate(3);
+            ->paginate(10);
     }
 
     public function delete($id)
