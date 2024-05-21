@@ -7,6 +7,7 @@
                              wire:model.live="data"
                              id="{{ $connection->id }}"
                              wire:change="changeConnection()"
+                             class="input-info"
             />
         @endforeach
     </div>
