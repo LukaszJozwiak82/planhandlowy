@@ -5,8 +5,8 @@ namespace App\Livewire\Pages;
 
 use App\Models\Event;
 use Carbon\Carbon;
+use Illuminate\View\View;
 use Livewire\Component;
-use phpDocumentor\Reflection\Types\Integer;
 
 class Calendar extends Component
 {
@@ -22,7 +22,7 @@ class Calendar extends Component
         $this->dispatch('event-create', dateSelected: $dateSelected);
     }
 
-    public function showEvent($id)
+    public function showEvent($id): void
     {
         $this->dispatch('event-show', id: $id);
     }
@@ -35,7 +35,7 @@ class Calendar extends Component
         $this->year = intval(date("Y")); // Current year
     }
 
-    public function previousMonth($month, $year)
+    public function previousMonth($month, $year): void
     {
         $current = date('Y-m', strtotime($year . '-' . $month));
         $previousMonth = date('m', strtotime("-1 month", strtotime($current)));
@@ -46,7 +46,7 @@ class Calendar extends Component
         // $this->year = $year;
     }
 
-    public function nextMonth($month, $year)
+    public function nextMonth($month, $year): void
     {
         $current = date('Y-m', strtotime($year . '-' . $month));
         $nextMonth = date('m', strtotime("+1 month", strtotime($current)));
@@ -57,7 +57,7 @@ class Calendar extends Component
         // $this->year = $year;
     }
 
-    public function render()
+    public function render(): View
     {
         $this->days = Carbon::createFromDate($this->year, $this->month)->daysInMonth;
         $this->events = Event::all();
@@ -67,7 +67,7 @@ class Calendar extends Component
 
             $this->eventsCount[$number] = $count;
         }
-//        dd($this->eventsCount);
+        
         return view('livewire.pages.calendar', [
             'days' => $this->days,
             'month' => $this->month,
