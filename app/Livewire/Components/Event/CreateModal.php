@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Livewire\Components\Event;
 
 use App\Models\Event;
 use Auth;
+use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -20,13 +22,13 @@ class CreateModal extends Component
     public $name;
 
     #[On('event-create')]
-    public function openModal($dateSelected)
+    public function openModal($dateSelected): void
     {
         $this->eventDate = $dateSelected;
         $this->createEventModal = true;
     }
 
-    public function createEvent()
+    public function createEvent(): void
     {
         $this->validate();
         Event::create([
@@ -40,7 +42,7 @@ class CreateModal extends Component
         $this->createEventModal = false;
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.components.event.create-modal');
     }
