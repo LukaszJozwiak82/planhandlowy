@@ -57,6 +57,28 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('employee')
                 ->as('employee:')
                 ->group(base_path('routes/custom/employee.php'));
+
+            Route::middleware([
+                'web',
+                'auth:sanctum',
+                config('jetstream.auth_session'),
+                'verified',
+                'role:manager',
+            ])
+                ->prefix('manager')
+                ->as('manager:')
+                ->group(base_path('routes/custom/manager.php'));
+
+            Route::middleware([
+                'web',
+                'auth:sanctum',
+                config('jetstream.auth_session'),
+                'verified',
+                'role:super-manager',
+            ])
+                ->prefix('supermanager')
+                ->as('supermanager:')
+                ->group(base_path('routes/custom/supermanager.php'));
         });
     }
 }

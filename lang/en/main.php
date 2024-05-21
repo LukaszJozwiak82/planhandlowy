@@ -14,5 +14,8 @@ return [
     */
 
     'main' => 'Desktop',
-
+    'calculator' => 'Calculator',
+    'calendar' => 'Calendar',
+    'campaigns' => 'Campaigns',
+    'users' => 'Users',
 ];

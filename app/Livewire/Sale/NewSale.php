@@ -53,7 +53,7 @@ class NewSale extends Component
 
     public $insurance_id;
 
-    public $contribution;
+    public float $contribution;
 
     public $current_funding;
 
@@ -75,7 +75,7 @@ class NewSale extends Component
 
     public int $totalPoints = 0;
 
-    public int $insuranceTotalSalePoints = 0;
+    public float $insuranceTotalSalePoints = 0;
 
     public float $loanTotalSalePoints = 0;
 
@@ -200,7 +200,7 @@ class NewSale extends Component
                         'is_sale' => true,
                     ]);
                     if ($item->is_value) {
-                        $this->totalPoints = $this->totalPoints + (int) (0.05 / 100 * (int) $this->depositValue);
+                        $this->totalPoints = $this->totalPoints + floatval(0.05 / 100 * $this->depositValue);
                     } else {
                         $this->totalPoints = $this->totalPoints + (int) $item->points;
                     }
@@ -233,18 +233,18 @@ class NewSale extends Component
                 $isSale = false;
                 if ($insurance->id == $this->insurance_id) {
                     $isSale = true;
-                    $this->insuranceTotalSalePoints = (int) ($insurance->percent / 100) * $this->contribution;
+                    $this->insuranceTotalSalePoints = floatval($insurance->percent / 100) * floatval($this->contribution);
+                    InsuranceSale::create([
+                        'sale_id' => $sale->id,
+                        'is_sale' => $isSale,
+                        'insurance_id' => $this->insurance_id,
+                        'contribution' => $this->contribution,
+                        'points' => $this->insuranceTotalSalePoints,
+                    ]);
                 }
             }
 
-            InsuranceSale::create([
-                'sale_id' => $sale->id,
-                'is_sale' => $isSale,
-                'insurance_id' => $this->insurance_id,
-                'contribution' => $this->contribution,
-                'points' => $this->insuranceTotalSalePoints,
-            ]);
-            $this->totalPoints = $this->totalPoints + (int) $this->insuranceTotalSalePoints;
+            $this->totalPoints = $this->totalPoints + intval($this->insuranceTotalSalePoints);
         }
 
         //loan sale
@@ -256,19 +256,18 @@ class NewSale extends Component
                 $isSale = false;
                 if ($loan->id == $this->loan_id) {
                     $isSale = true;
-                    $this->loanTotalSalePoints = round((1 / $loan->percent) * $this->loan_value * (floatval(str_replace(',', '.', $this->rrso)) / 100));
+                    $this->loanTotalSalePoints = round((1 / $loan->percent) * $this->loan_value * floatval(floatval(str_replace(',', '.', $this->rrso)) / 100));
+                    LoanSale::create([
+                        'sale_id' => $sale->id,
+                        'is_sale' => $isSale,
+                        'loan_id' => $this->loan_id,
+                        'value' => $this->loan_value,
+                        'current_funding' => $this->current_funding,
+                        'rrso' => floatval(str_replace(',', '.', $this->rrso)),
+                        'points' => $this->loanTotalSalePoints,
+                    ]);
                 }
             }
-
-            LoanSale::create([
-                'sale_id' => $sale->id,
-                'is_sale' => $isSale,
-                'loan_id' => $this->loan_id,
-                'value' => $this->loan_value,
-                'current_funding' => $this->current_funding,
-                'rrso' => floatval(str_replace(',', '.', $this->rrso)),
-                'points' => $this->loanTotalSalePoints,
-            ]);
             $this->totalPoints = $this->totalPoints + (int) $this->loanTotalSalePoints;
         }
 
@@ -279,7 +278,7 @@ class NewSale extends Component
 
             session()->flash('status', 'Gratulacje ' . Auth::user()->name . ' ! Zdobyłaś(eś) ' . $this->totalPoints . 'punktów');
 
-            return redirect(route('employee:sale.index'));
+            return redirect(route('sale.index'));
         }
 
         $saleRecommended = Sale::create([
@@ -303,7 +302,7 @@ class NewSale extends Component
 
         session()->flash('status', 'Gratulacje ' . Auth::user()->name . ' ! Zdobyłaś(eś) ' . round($this->totalPoints / 2) . 'punktów');
 
-        return redirect(route('employee:sale.index'));
+        return redirect(route('sale.index'));
     }
 
     public function render()

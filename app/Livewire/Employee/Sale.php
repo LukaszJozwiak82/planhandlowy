@@ -1,10 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Livewire\Employee;
 
 use App\Helpers\PlanData;
+use App\Models\User;
 use App\Services\Employee\SaleService;
 use Carbon\Carbon;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -25,16 +28,22 @@ class Sale extends Component
 
     ];
 
-    public $selectedTab;
     public $selectedYear;
     public $selectedQuarter;
+    public $selectedUser;
     public $dates;
     public array $years;
     public array $quarters;
 
     public function mount()
     {
-        $this->user = auth()->user();
+        $this->selectedUser = "";
+        if (auth()->user()->hasRole(['super-manager', 'admin'])) {
+            $this->users = User::role('employee')->get();
+        }
+        if (auth()->user()->hasRole(['employee', 'manager'])) {
+            $this->users = auth()->user()->departament->user()->role('employee')->get();
+        }
         $this->dates = PlanData::getQuarterData(1, Carbon::now()->year);
         $this->selectedYear = Carbon::now()->year;
         $this->selectedQuarter = Carbon::now()->quarter;
@@ -50,25 +59,32 @@ class Sale extends Component
         ];
     }
 
-    public function search()
+    public function search(): void
     {
         $this->resetPage();
     }
 
-    public function show(SaleService $saleService, $id)
+    public function show($id): void
     {
-        dd($id);
+        $this->dispatch('show-modal', saleId: $id);
     }
 
-    public function delete(SaleService $saleService, $id)
+    public function delete(SaleService $saleService, $id): void
     {
         $saleService->delete($id);
         $this->search();
     }
 
-    public function render(SaleService $saleService)
+    public function render(SaleService $saleService): View
     {
-        $sales = $saleService->search($this->user, $this->selectedYear, $this->selectedQuarter);
+        $sales = null;
+        if (auth()->user()->hasRole('employee')) {
+            $sales = $saleService->search(auth()->user(), $this->selectedYear, $this->selectedQuarter);
+        }
+        if ($this->selectedUser) {
+            $this->user = User::find($this->selectedUser);
+            $sales = $saleService->search($this->user, $this->selectedYear, $this->selectedQuarter);
+        }
 
         return view('livewire.employee.sale', [
             'sales' => $sales,

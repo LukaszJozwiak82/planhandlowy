@@ -14,5 +14,8 @@ return [
     */
 
     'main' => 'Pulpit',
-
+    'calculator' => 'Kalkulator',
+    'calendar' => 'Kalendarz',
+    'campaigns' => 'Kampanie',
+    'users' => 'Użytkownicy',
 ];
