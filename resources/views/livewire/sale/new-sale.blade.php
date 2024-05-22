@@ -61,8 +61,8 @@
                             ,wartość <input wire:model.defer="depositValue"
                                             id="depositValue{{ $deposit->name }}"
                                             type="text"
-                                            class="form"
-                    >
+                                            class="input input-bordered input-info"
+                            >
                         @endif
                     </div>
                 @endforeach
@@ -88,9 +88,9 @@
                                 <label class="form-check-label" for="{{ $package->name }}">
                                     {{ $package->name }}
                                     @foreach ($package->packageDeposits as $item)
-                                    <x-mary-list-item :item="$item->deposit"
-                                                      class="text-sm"
-                                    />
+                                        <x-mary-list-item :item="$item->deposit"
+                                                          class="text-sm"
+                                        />
                                     @endforeach
                                 </label>
                             </div>
@@ -106,22 +106,22 @@
                                  wire:model.live="loanGranted"
                 />
                 @if ($loanGranted)
-                <x-mary-select label="Kredyt"
-                               :options="$loans"
-                               wire:model.defer="loan_id"
-                />
-                <x-mary-input label="Kwota finansowania"
-                              wire:model.defer="loan_value"
-                />
+                    <x-mary-select label="Kredyt"
+                                   :options="$loans"
+                                   wire:model.defer="loan_id"
+                    />
+                    <x-mary-input label="Kwota finansowania"
+                                  wire:model.defer="loan_value"
+                    />
                     @error('loan_value')
                     <span class="error">{{ $message }}</span>
                     @enderror
-                <x-mary-input label="Obecne finansowanie"
-                              wire:model.defer="current_funding"
-                />
-                <x-mary-input label="RRSO/oprocentowanie"
-                              wire:model.defer="rrso"
-                />
+                    <x-mary-input label="Obecne finansowanie"
+                                  wire:model.defer="current_funding"
+                    />
+                    <x-mary-input label="RRSO/oprocentowanie"
+                                  wire:model.defer="rrso"
+                    />
                 @endif
             </div>
             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
@@ -132,24 +132,26 @@
                                  wire:model.live="insuranceGranted"
                 />
                 @if ($insuranceGranted)
-                <x-mary-select label="Rodzaj ubezpieczenia"
-                               :options="$insurances"
-                               wire:model.defer="insurance_id"
-                />
-                <x-mary-input label="Składka uroczniona"
-                              wire:model.defer="contribution"
-                />
+                    <x-mary-select label="Rodzaj ubezpieczenia"
+                                   :options="$insurances"
+                                   wire:model.defer="insurance_id"
+                    />
+                    <x-mary-input label="Składka uroczniona"
+                                  wire:model.defer="contribution"
+                    />
                 @endif
             </div>
 
         </div>
-        <x-mary-button type="button"
-                       class="btn btn-danger"
-                       label="Anuluj"
-        />
-        <x-mary-button type="submit"
-                       class="btn-success"
-                       label="Zapisz"
-        />
+        <div class="flex w-full gap-2">
+            <x-mary-button type="button"
+                           class="btn btn-danger"
+                           label="Anuluj"
+            />
+            <x-mary-button type="submit"
+                           class="btn-success"
+                           label="Zapisz"
+            />
+        </div>
     </x-mary-form>
 </div>
