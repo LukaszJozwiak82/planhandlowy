@@ -143,6 +143,7 @@
             </div>
 
         </div>
+        <hr class="border-gray-300 my-2">
         <div class="flex w-full gap-2">
             <x-mary-button type="button"
                            class="btn btn-danger"
